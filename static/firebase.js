@@ -125,7 +125,7 @@ async function vote(team) {
       const formData = new URLSearchParams();
       formData.append("team", team); 
 
-      const response = await fetch("http://localhost:9080/", {
+      const response = await fetch("https://tabs-vs-spaces-945227819116.us-central1.run.app/", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

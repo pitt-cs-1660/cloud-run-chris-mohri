@@ -26,16 +26,27 @@ async def read_root(request: Request):
 
 
     # get all votes from firestore collection
+    tabsCount=0
+    spacesCount=0
     votes = votes_collection.stream()
     # @note: we are storing the votes in `vote_data` list because the firestore stream closes after certain period of time
     vote_data = []
+
     for v in votes:
-        vote_data.append(v.to_dict())
+        newDoc = v.to_dict()
+        vote_data.append(newDoc)
+
+        if (newDoc["team"]=="TABS"):
+            tabsCount+=1
+        else:
+            spacesCount+=1
+
+    
 
     return templates.TemplateResponse("index.html", {
         "request": request,
-        "tabs_count": vote_data["TABS"],
-        "spaces_count": vote_data["SPACES"],
+        "tabs_count": tabsCount,
+        "spaces_count": spacesCount,
         "recent_votes": vote_data
     })
 
