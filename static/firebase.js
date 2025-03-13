@@ -38,7 +38,7 @@ async function createIdToken() {
   if (authDisabled()) {
     console.warn('Auth is disabled. Returning dummy ID token.');
     return new Promise((resolve) => {
-        resolve('dummyToken');  // return a dummy ID token
+      resolve('dummyToken');  // return a dummy ID token
     })
   } else {
     return await firebase.auth().currentUser.getIdToken();
@@ -77,7 +77,7 @@ function signOut() {
   firebase
     .auth()
     .signOut()
-    .then(result => {})
+    .then(result => { })
     .catch(err => {
       console.log(`Error during sign out: ${err.message}`);
       window.alert(`Sign out failed. Retry or check your browser logs.`);
@@ -120,7 +120,30 @@ async function vote(team) {
       /*
        * ++++ YOUR CODE HERE ++++
        */
-      window.alert(`Not implemented yet!`);
+
+
+      const formData = new URLSearchParams();
+      formData.append("team", team); 
+      console.log("Form Data:", formData.toString());
+
+      console.log("boutta fetch")
+      const response = await fetch("https://tabs-vs-spaces-945227819116.us-central1.run.app/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      //check response
+      if (response.ok) {
+        alert("Vote submitted successfully!");
+        // Window.location.reload();
+      } else {
+        alert("Failed to vote");
+      }
+
 
     } catch (err) {
       console.log(`Error when submitting vote: ${err}`);

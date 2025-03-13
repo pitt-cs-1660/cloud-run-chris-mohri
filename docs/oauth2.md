@@ -49,6 +49,9 @@ To enable OAuth authentication, create a **Client ID and Secret**:
 4. Click **Create**.
 5. Copy the **client_id** and **client_secret** values for later use.
 
+id=945227819116-9ilvai4gfuduf2ju6r3lurd88ahgm9sv.apps.googleusercontent.com
+secret = 
+
 ## Step 4: Configure Google as an Identity Provider
 To allow authentication via Google, configure it as a provider:
 
