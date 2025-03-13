@@ -63,6 +63,7 @@ async def read_root(request: Request):
 
 @app.post("/")
 async def create_vote(team: Annotated[str, Form()]):
+    print("entered POST")
     if team not in ["TABS", "SPACES"]:
         raise HTTPException(status_code=400, detail="Invalid vote")
 
@@ -74,7 +75,7 @@ async def create_vote(team: Annotated[str, Form()]):
     # return {"detail": "Not implemented yet!"}
     votes_collection.add({
     "team": team,
-    "time_cast": datetime.datetime.isoformat()
+    "time_cast": datetime.datetime.now().isoformat()
     })
 
     # ====================================

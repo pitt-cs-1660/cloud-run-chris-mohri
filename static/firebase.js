@@ -124,7 +124,9 @@ async function vote(team) {
 
       const formData = new URLSearchParams();
       formData.append("team", team); 
+      console.log("Form Data:", formData.toString());
 
+      console.log("boutta fetch")
       const response = await fetch("https://tabs-vs-spaces-945227819116.us-central1.run.app/", {
         method: "POST",
         headers: {
