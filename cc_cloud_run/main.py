@@ -75,7 +75,7 @@ async def create_vote(team: Annotated[str, Form()]):
     # return {"detail": "Not implemented yet!"}
     votes_collection.add({
     "team": team,
-    "time_cast": datetime.datetime.now().isoformat()
+    "time_cast": datetime.datetime.now(datetime.timezone.utc).isoformat()
     })
 
     # ====================================

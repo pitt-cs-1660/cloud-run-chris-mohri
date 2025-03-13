@@ -139,6 +139,7 @@ async function vote(team) {
       //check response
       if (response.ok) {
         alert("Vote submitted successfully!");
+        // Window.location.reload();
       } else {
         alert("Failed to vote");
       }
