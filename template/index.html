@@ -86,6 +86,12 @@
   </div>
   <script>
     async function castVote(value){
+      // new
+      const urlParams = new URLSearchParams(window.location.search);
+      const myParam = urlParams.get('key');
+      console.log(myParam);
+      // also pass in Email and 'key' to verify the person
+      // ======
       await vote(value);
       window.location.reload();
     }
@@ -123,7 +129,8 @@
         QRElement.innerHTML = "";
 
         new QRCode(QRElement, {
-          text: 'https://www.wikipedia.org?'+key,
+          //https://tabs-vs-spaces-945227819116.us-central1.run.app/ <--the key gets saved in target url. wikipedia drops the key
+          text: 'https://www.wikipedia.org?key='+key,
           width: 150,
           height: 150,
           colorDark: 'purple',
