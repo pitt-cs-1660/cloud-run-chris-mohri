@@ -1,11 +1,3 @@
-/**
- * This is the client-side code that interacts with Firebase Auth to sign in users, updates the UI if the user is signed in,
- * and sends the user's vote to the server.
- *
- * When running on localhost, you can disable authentication by passing `auth=false` as a query parameter.
- *
- * NOTE: YOU ONLY NEED TO MODIFY THE VOTE FUNCTION AT THE BOTTOM OF THIS FILE.
- */
 firebase.initializeApp(config);
 
 // Watch for state change from sign in
@@ -98,12 +90,6 @@ function toggle() {
 }
 
 /**
- * DO NOT ALTER ANY CODE ABOVE THIS COMMENT
- * ++++ ADD YOUR CODE BELOW ++++
- * === VOTE FUNCTION ===
- */
-
-/**
  * Sends the user's vote to the server.
  * @param team
  * @returns {Promise<void>}
@@ -111,22 +97,12 @@ function toggle() {
 async function vote(team) {
   console.log(`Submitting vote for ${team}...`);
   if (firebase.auth().currentUser || authDisabled()) {
-    // Retrieve JWT to identify the user to the Identity Platform service.
-    // Returns the current token if it has not expired. Otherwise, this will
-    // refresh the token and return a new one.
     try {
       const token = await createIdToken();
 
-      /*
-       * ++++ YOUR CODE HERE ++++
-       */
-
-
       const formData = new URLSearchParams();
       formData.append("team", team); 
-      console.log("Form Data:", formData.toString());
 
-      console.log("boutta fetch")
       const response = await fetch("https://tabs-vs-spaces-945227819116.us-central1.run.app/", {
         method: "POST",
         headers: {
@@ -136,14 +112,11 @@ async function vote(team) {
         body: formData
       });
 
-      //check response
       if (response.ok) {
         alert("Vote submitted successfully!");
-        // Window.location.reload();
       } else {
         alert("Failed to vote");
       }
-
 
     } catch (err) {
       console.log(`Error when submitting vote: ${err}`);

@@ -5,6 +5,14 @@
   <title>TABS v SPACES</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!--  -->
+  <!-- NEW -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/static/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!--  -->
+  <!--  -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!-- Firebase App (the core Firebase SDK) is always required and must be listed first-->
   <script src="https://www.gstatic.com/firebasejs/7.18/firebase-app.js"></script>
@@ -13,6 +21,9 @@
   <script src="/static/config.js"></script>
   <script src="/static/firebase.js"></script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>(•‿•)</text></svg>">
+
+
+
 </head>
 <body class="yellow lighten-5">
   <nav class="teal darken-3">
@@ -22,6 +33,25 @@
       </ul>
     </div>
   </nav>
+
+<!--  -->
+<!--  -->
+<!--  -->
+
+<div id="qr"></div>
+<button id="qr_button" style="height:40px; width:80px; background-color: grey;">Generate Code</button>
+<p id="daily_code"></p>
+
+<button id="screenshot" style="height:40px; width:80px; background-color: lightblue;">Screenshot</button>
+
+<img id="screenshot_img" src="" style="width:50%;">
+
+
+
+<!--  -->
+<!--  -->
+<!--  -->
+
   <div class="section" id="form">
     <div class="center">
       <h4>{{leader_message}}</h4>
@@ -70,6 +100,60 @@
       document.getElementById("signInButton").addEventListener("click", function () {
         toggle();
       });
+
+      // =======================================================================
+      //NEW
+      document.getElementById("screenshot").addEventListener("click", function () {
+        screenshot();
+      });
+
+      document.getElementById("qr_button").addEventListener("click", function () {
+        generateQRCode();
+      });
+
+      //generate unique qr codes for the same link
+      function generateQRCode(){
+        var key = "";
+        for (let i = 0; i < 6; i++) {
+          key += getRandomInt(9).toString();
+        } 
+
+        var QRElement = document.getElementById('qr'); 
+        QRElement.innerHTML = "";
+
+        new QRCode(QRElement, {
+          text: 'https://www.wikipedia.org?'+key,
+          width: 150,
+          height: 150,
+          colorDark: 'purple',
+          colorLight: 'white',
+        });
+
+        updateDailyCode(key);
+
+      }
+
+      function updateDailyCode(code){
+        document.getElementById("daily_code").innerHTML = code
+      }
+
+      function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+      }
+
+      function screenshot(){
+        html2canvas(document.body, {
+          useCORS: true
+        }).then(function (canvas) {
+          // png file
+          var screen_img= canvas.toDataURL('image/png');
+          document.getElementById('screenshot_img').src = screen_img;
+        });
+
+
+      }
+
+      // =====================================================================
 
     })
   </script>
