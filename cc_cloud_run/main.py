@@ -1,3 +1,6 @@
+import base64
+from pathlib import Path
+import re
 from fastapi import FastAPI, Form, Request, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -49,6 +52,11 @@ async def create_vote(team: Annotated[str, Form()]):
     "team": team,
     "time_cast": datetime.datetime.now(datetime.timezone.utc).isoformat()
     })
+
+@app.post("/upload-image")
+async def upload_image(request: Request):
+    data = await request.json()
+    image_data = data["image"]
 
 
 
