@@ -72,6 +72,7 @@ async def upload_image(request: Request):
     image_data = data["image"]
 
 @app.post("/add_student")
+# only adds if student email is not already present in collection
 async def addStudent(name: Annotated[str, Form()], email: Annotated[str, Form()], key: Annotated[str, Form()]):
     toAdd = True
 

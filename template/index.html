@@ -94,24 +94,19 @@
     </ul>
     <br>
     <br>
+    <!-- NEW STUFF -->
     <h4 class="header center">Present</h4>
-    <ul class="container collection center">
-      {% for user in attendance_data %}
-      <li class="collection-item avatar">
-        <!-- <i class="material-icons circle teal lighten-1">{% if user.key == "TABS" %}》{% elif vote.team == "SPACES"
-          %}⎵{%else%}❓{% endif %}</i> -->
-        <span class="title">Student: </span><b>'{{user.name}}'</b>
-        <!-- <p>was cast at {{vote.time_cast}}</p> -->
-      </li>
-      {% endfor %}
-    </ul>
+    <div id="present_section">
+
+    </div>
+    
   </div>
   <script>
     async function castVote(value) {
       // new
-      const urlParams = new URLSearchParams(window.location.search);
-      const myParam = urlParams.get('key');
-      console.log(myParam);
+      // const urlParams = new URLSearchParams(window.location.search);
+      // const myParam = urlParams.get('key');
+      // console.log(myParam);
       // also pass in Email and 'key' to verify the person
       // ======
       await vote(value);
