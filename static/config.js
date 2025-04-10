@@ -1,19 +1,9 @@
 /**
- * Update this file with your Firebase configuration settings.
- * API key and auth domain are required.
- */
-
-/**
- * ++++ ADD YOUR FIREBASE CONFIGURATION BELOW ++++
- * === Firebase Apikey and Domain ===
- */
-
-
-/**
- * Firebase configuration
+ * firebase config
  * @type {{apiKey: string, authDomain: string}}
  */
 const config = {
-  apiKey: 'AIzaSyDhwsk8AklD8Ipj26fVzYTMgrWvE8x1rgc',
-  authDomain: 'cc-spring2025.firebaseapp.com',
+  apiKey: "AIzaSyCOJr6sNaezZM77hpcGotJFHWmQRgKX8vk",
+  authDomain: "spring-cs1660-2025.firebaseapp.com",
 };
+{/* . */}

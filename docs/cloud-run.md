@@ -20,6 +20,9 @@ You need to build your Docker image and push it to **Google Artifact Registry**.
 
 ```bash
  gcloud builds submit --region [REGION] --tag [REGION]-docker.pkg.dev/[PROJECT NAME]/tabs-vs-spaces/app:v1
+
+ gcloud builds submit --region us-central1 --tag us-central1-docker.pkg.dev/spring-cs1660-2025/tabs-vs-spaces/app:v1
+
 ```
 
 #### Explanation:
@@ -33,6 +36,8 @@ Cloud Run services should use a **service account** for authentication. Create o
 ```bash
 gcloud iam service-accounts create tabs-vs-spaces \
   --display-name "tabs-vs-spaces"
+
+gcloud iam service-accounts create tabs-vs-spaces --display-name "tabs-vs-spaces"
 ```
 
 you can list the service accounts with the following command:
@@ -48,6 +53,8 @@ We are deploying a service that needs to access **Google Firestore**. To allow t
 gcloud projects add-iam-policy-binding [PROJECT ID] \
   --member=serviceAccount:tabs-vs-spaces@[PROJECT ID].iam.gserviceaccount.com \
   --role=roles/datastore.owner
+
+  gcloud projects add-iam-policy-binding spring-cs1660-2025 --member=serviceAccount:tabs-vs-spaces@spring-cs1660-2025.iam.gserviceaccount.com --role=roles/datastore.owner
 ```
 
 #### Explanation:
@@ -65,6 +72,8 @@ gcloud run deploy tabs-vs-spaces \
   --service-account tabs-vs-spaces@[PROJECT ID].iam.gserviceaccount.com \
   --region [REGION] \
   --port 8000
+
+gcloud run deploy tabs-vs-spaces --allow-unauthenticated --image us-central1-docker.pkg.dev/spring-cs1660-2025/tabs-vs-spaces/app:v1 --service-account tabs-vs-spaces@spring-cs1660-2025.iam.gserviceaccount.com --region us-central1 --port 8000
 ```
 
 #### Explanation:
@@ -80,4 +89,5 @@ gcloud run deploy tabs-vs-spaces \
 - Check logs using:
   ```bash
   gcloud run services logs read tabs-vs-spaces --region [REGION]
+  gcloud run services logs read tabs-vs-spaces --region us-central1
   ```
