@@ -73,10 +73,19 @@ async def upload_image(request: Request):
 
 @app.post("/add_student")
 async def addStudent(name: Annotated[str, Form()], email: Annotated[str, Form()], key: Annotated[str, Form()]):
-    attendance_collection.add({
-    "name": name,
-    "email":email,
-    "key":key
-    })
+    toAdd = True
+
+    docs = attendance_collection.stream()
+    for doc in docs:
+        if doc.get("email")==email:
+            toAdd=False
+            break
+    
+    if (toAdd):
+        attendance_collection.add({
+        "name": name,
+        "email":email,
+        "key":key
+        })
 
 # to do: finish add student and pass in name/email/key to it

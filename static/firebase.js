@@ -64,6 +64,10 @@ function signIn() {
       name = result.user.displayName;
       email = result.user.email;
 
+      addStudent(result.user.displayName, result.user.email);
+      //=========================================================
+
+
       // Returns the signed in user along with the provider's credential
       console.log(`${result.user.displayName} logged in.`);
       window.alert(`Welcome ${result.user.displayName}!`);
@@ -74,9 +78,6 @@ function signIn() {
       window.alert(`Sign in failed. Retry or check your browser logs.`);
     });
 
-    console.log("attemping to add student rn");
-    addStudent(name, email);
-    console.log("added student rn");
 }
 
 function signOut() {
@@ -103,13 +104,13 @@ function toggle() {
   }
 }
 
+// =========== FUNCTION TO REMOVE =======
 /**
  * Sends the user's vote to the server.
  * @param team
  * @returns {Promise<void>}
  */
 async function vote(team) {
-  console.log("aaaaa");
   console.log(`Submitting a vote for ${team}...`);
   if (firebase.auth().currentUser || authDisabled()) {
     try {
@@ -142,12 +143,11 @@ async function vote(team) {
   }
 }
 
+// ============= NEW ==================================
+
 async function addStudent(name, email){
-  console.log('Adding'+name);
-  console.log('Adding'+email);
-  console.log('adding student to db!');
   const formData = new URLSearchParams(window.location.search);
-  if (length(formData.keys())==0){
+  if (formData.keys().length==0){
     formData.append("key","000111");
   }
   formData.append("name", name); 
