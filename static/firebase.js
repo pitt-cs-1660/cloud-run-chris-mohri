@@ -167,6 +167,11 @@ async function addStudent(name, email) {
   });
 
   // update HTML
+  updateAttendanceList();
+  
+}
+
+function updateAttendanceList(){
   fetch('/update_html', {
     method: 'GET',
     headers: {

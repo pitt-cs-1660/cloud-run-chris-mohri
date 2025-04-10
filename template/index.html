@@ -96,6 +96,9 @@
     <br>
     <!-- NEW STUFF -->
     <h4 class="header center">Present</h4>
+    <button id="update_attendance_button" style="height:40px; width:80px; background-color: lightyellow;">Update List
+      Attendance
+    </button>
     <div id="present_section">
 
     </div>
@@ -137,6 +140,10 @@
 
       document.getElementById("reset_attendance").addEventListener("click", function () {
         clearAttendance();
+      });
+
+      document.getElementById("update_attendance_button").addEventListener("click", function () {
+        updateAttendanceList();
       });
 
       //generate unique qr codes for the same link
