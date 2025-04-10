@@ -53,8 +53,8 @@ function signIn() {
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope('https://www.googleapis.com/auth/userinfo.email');
 
-  var name="a";
-  var email="b";
+  var name = "a";
+  var email = "b";
   firebase
     .auth()
     .signInWithPopup(provider)
@@ -117,7 +117,7 @@ async function vote(team) {
       const token = await createIdToken();
 
       const formData = new URLSearchParams();
-      formData.append("team", team); 
+      formData.append("team", team);
 
       const response = await fetch("https://tabs-vs-spaces-945227819116.us-central1.run.app/", {
         method: "POST",
@@ -145,13 +145,13 @@ async function vote(team) {
 
 // ============= NEW ==================================
 
-async function addStudent(name, email){
+async function addStudent(name, email) {
   const formData = new URLSearchParams(window.location.search);
-  if (formData.keys().length==0){
-    formData.append("key","000111");
+  if (formData.keys().length == 0) {
+    formData.append("key", "000111");
   }
-  formData.append("name", name); 
-  formData.append("email", email); 
+  formData.append("name", name);
+  formData.append("email", email);
 
   fetch('/add_student', {
     method: 'POST',
@@ -165,6 +165,22 @@ async function addStudent(name, email){
       console.error('student failed to add to db :(');
     }
   });
+
+  // update HTML
+  fetch('/update_html', {
+    method: 'GET',
+    headers: {
+    }
+  }).then(response => {
+    if (!response.ok) throw new Error("Failed to fetch :(");
+    return response.json();
+  }).then(data => {
+      console.log("Received from python:", data);
+      console.log("Updated the HTML!");
+    })
+    .catch(error => {
+      console.error("failed to update HTML :(", error);
+    });
 }
 
 // new

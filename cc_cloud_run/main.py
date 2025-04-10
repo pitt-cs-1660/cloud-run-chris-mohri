@@ -88,4 +88,14 @@ async def addStudent(name: Annotated[str, Form()], email: Annotated[str, Form()]
         "key":key
         })
 
-# to do: finish add student and pass in name/email/key to it
+@app.get("/update_html")
+async def updateHTML():
+    attendance = attendance_collection.stream()
+    attendance_data = []
+
+    for a in attendance:
+        newDoc = a.to_dict()
+        attendance_data.append([newDoc["name"], newDoc["email"], newDoc["key"]])
+
+    return attendance_data
+
