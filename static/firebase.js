@@ -8,6 +8,7 @@ function initApp() {
       // User is signed in.
       signInButton.innerText = 'Sign Out';
       document.getElementById('form').style.display = '';
+
     } else {
       // No user is signed in.
       signInButton.innerText = 'Sign In with Google';
@@ -51,18 +52,31 @@ window.onload = function () {
 function signIn() {
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+
+  var name="a";
+  var email="b";
   firebase
     .auth()
     .signInWithPopup(provider)
     .then(result => {
+
+      // ======== NEW ============================
+      name = result.user.displayName;
+      email = result.user.email;
+
       // Returns the signed in user along with the provider's credential
       console.log(`${result.user.displayName} logged in.`);
       window.alert(`Welcome ${result.user.displayName}!`);
+
     })
     .catch(err => {
       console.log(`Error during sign in: ${err.message}`);
       window.alert(`Sign in failed. Retry or check your browser logs.`);
     });
+
+    console.log("attemping to add student rn");
+    addStudent(name, email);
+    console.log("added student rn");
 }
 
 function signOut() {
@@ -95,7 +109,8 @@ function toggle() {
  * @returns {Promise<void>}
  */
 async function vote(team) {
-  console.log(`Submitting vote for ${team}...`);
+  console.log("aaaaa");
+  console.log(`Submitting a vote for ${team}...`);
   if (firebase.auth().currentUser || authDisabled()) {
     try {
       const token = await createIdToken();
@@ -126,3 +141,44 @@ async function vote(team) {
     window.alert('User not signed in.');
   }
 }
+
+async function addStudent(name, email){
+  console.log('Adding'+name);
+  console.log('Adding'+email);
+  console.log('adding student to db!');
+  const formData = new URLSearchParams(window.location.search);
+  if (length(formData.keys())==0){
+    formData.append("key","000111");
+  }
+  formData.append("name", name); 
+  formData.append("email", email); 
+
+  fetch('/add_student', {
+    method: 'POST',
+    headers: {
+    },
+    body: formData
+  }).then(response => {
+    if (response.ok) {
+      console.log('student added to db!');
+    } else {
+      console.error('student failed to add to db :(');
+    }
+  });
+}
+
+// new
+
+// async function clearAttendance() {
+//   fetch('/reset_attendance', {
+//     method: 'POST',
+//     headers: {
+//     },
+//   }).then(response => {
+//     if (response.ok) {
+//       console.log('Attendance List Cleared');
+//     } else {
+//       console.error('Failed to clear attendance list');
+//     }
+//   });
+// }

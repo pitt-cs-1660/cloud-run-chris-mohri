@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang=en xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <title>TABS v SPACES</title>
@@ -7,7 +8,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <!--  -->
   <!-- NEW -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="/static/html2canvas.min.js"></script>
   <!-- uncomment the below line for local development -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -21,11 +24,13 @@
   <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
   <script src="/static/config.js"></script>
   <script src="/static/firebase.js"></script>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>(•‿•)</text></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>(•‿•)</text></svg>">
 
 
 
 </head>
+
 <body class="yellow lighten-5">
   <nav class="teal darken-3">
     <div class="nav-wrapper container"><a class="brand-logo center" href="#!">TABS v SPACES</a>
@@ -35,23 +40,26 @@
     </div>
   </nav>
 
-<!--  -->
-<!--  -->
-<!-- NEW -->
+  <!--  -->
+  <!--  -->
+  <!-- NEW -->
 
-<div id="qr"></div>
-<button id="qr_button" style="height:40px; width:80px; background-color: grey;">Generate Code</button>
-<p id="daily_code"></p>
+  <div id="qr"></div>
+  <button id="qr_button" style="height:40px; width:80px; background-color: grey;">Generate Code</button>
+  <p id="daily_code"></p>
 
-<button id="screenshot" style="height:40px; width:80px; background-color: lightblue;">Screenshot</button>
+  <button id="screenshot" style="height:40px; width:80px; background-color: lightblue;">Screenshot</button>
 
-<img id="screenshot_img" src="" style="width:50%;">
+  <img id="screenshot_img" src="" style="width:50%;">
+
+  <button id="reset_attendance" style="height:40px; width:80px; background-color: lightyellow;">Reset
+    Attendance</button>
 
 
 
-<!--  -->
-<!--  -->
-<!--  -->
+  <!--  -->
+  <!--  -->
+  <!--  -->
 
   <div class="section" id="form">
     <div class="center">
@@ -74,10 +82,11 @@
       </div>
     </div>
     <h4 class="header center">Recent Votes</h4>
-    <ul class="container collection center" >
+    <ul class="container collection center">
       {% for vote in recent_votes %}
       <li class="collection-item avatar">
-        <i class="material-icons circle teal lighten-1">{% if vote.team == "TABS" %}》{% elif vote.team == "SPACES" %}⎵{%else%}❓{% endif %}</i>
+        <i class="material-icons circle teal lighten-1">{% if vote.team == "TABS" %}》{% elif vote.team == "SPACES"
+          %}⎵{%else%}❓{% endif %}</i>
         <span class="title">A vote for </span><b>'{{vote.team}}'</b>
         <p>was cast at {{vote.time_cast}}</p>
       </li>
@@ -85,7 +94,7 @@
     </ul>
   </div>
   <script>
-    async function castVote(value){
+    async function castVote(value) {
       // new
       const urlParams = new URLSearchParams(window.location.search);
       const myParam = urlParams.get('key');
@@ -96,7 +105,7 @@
       window.location.reload();
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       // <!-- add Event Listener "click" to the vote -->
       document.getElementById("voteTabs").addEventListener("click", function () {
         castVote("TABS");
@@ -118,19 +127,23 @@
         generateQRCode();
       });
 
+      document.getElementById("reset_attendance").addEventListener("click", function () {
+        clearAttendance();
+      });
+
       //generate unique qr codes for the same link
-      function generateQRCode(){
+      function generateQRCode() {
         var key = "";
         for (let i = 0; i < 6; i++) {
           key += getRandomInt(9).toString();
-        } 
+        }
 
-        var QRElement = document.getElementById('qr'); 
+        var QRElement = document.getElementById('qr');
         QRElement.innerHTML = "";
 
         new QRCode(QRElement, {
           //https://tabs-vs-spaces-945227819116.us-central1.run.app/ <--the key gets saved in target url. wikipedia drops the key
-          text: 'https://www.wikipedia.org?key='+key,
+          text: 'https://www.wikipedia.org?key=' + key,
           width: 150,
           height: 150,
           colorDark: 'purple',
@@ -141,26 +154,34 @@
 
       }
 
-      function updateDailyCode(code){
+      // updates the daily code
+      function updateDailyCode(code) {
         document.getElementById("daily_code").innerHTML = code
       }
 
+      /**
+       * gets random int from 0 to <max>
+       * @param max
+       * @returns int
+       */
       function getRandomInt(max) {
         return Math.floor(Math.random() * max);
       }
 
-      function screenshot(){
+      // takes a picture of the screen, then sends to backend
+      function screenshot() {
         html2canvas(document.body, {
           useCORS: true
         }).then(function (canvas) {
           // png file
-          var screen_img= canvas.toDataURL('image/png');
+          var screen_img = canvas.toDataURL('image/png');
           document.getElementById('screenshot_img').src = screen_img;
           sendToBackend(screen_img);
         });
       }
 
-      function sendToBackend(img){
+      // sends image to python backend
+      function sendToBackend(img) {
         fetch('/upload-image', {
           method: 'POST',
           headers: {
@@ -172,7 +193,21 @@
           if (response.ok) {
             console.log('Image sent to server!');
           } else {
-            console.error('Failed to send image.');
+            console.error('image failed to send to server :(');
+          }
+        });
+      }
+
+      function clearAttendance() {
+        fetch('/reset_attendance', {
+          method: 'POST',
+          headers: {
+          },
+        }).then(response => {
+          if (response.ok) {
+            console.log('Attendance List Cleared');
+          } else {
+            console.error('Failed to clear attendance list');
           }
         });
       }
@@ -182,4 +217,5 @@
     })
   </script>
 </body>
+
 </html>

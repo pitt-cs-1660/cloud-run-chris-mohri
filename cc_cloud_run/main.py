@@ -18,6 +18,8 @@ templates = Jinja2Templates(directory="/app/template")
 db = firestore.Client()
 votes_collection = db.collection("votes")
 
+# NEW
+attendance_collection = db.collection("attendance")
 
 @app.get("/")
 async def read_root(request: Request):
@@ -53,10 +55,28 @@ async def create_vote(team: Annotated[str, Form()]):
     "time_cast": datetime.datetime.now(datetime.timezone.utc).isoformat()
     })
 
+# db.collection("cities").document("LA").set(data)
+
+@app.post("/reset_attendance")
+async def reset_attendance():
+    print("attempt to clear attendance")
+    docs = attendance_collection.stream()
+    for doc in docs:
+        if (doc.id!="dummy"):
+            attendance_collection.document(doc.id).delete()
+
+
 @app.post("/upload-image")
 async def upload_image(request: Request):
     data = await request.json()
     image_data = data["image"]
 
+@app.post("/add_student")
+async def addStudent(name: Annotated[str, Form()], email: Annotated[str, Form()], key: Annotated[str, Form()]):
+    attendance_collection.add({
+    "name": name,
+    "email":email,
+    "key":key
+    })
 
-
+# to do: finish add student and pass in name/email/key to it
