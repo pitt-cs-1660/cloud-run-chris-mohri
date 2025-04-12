@@ -1,11 +1,3 @@
-/**
- * This is the client-side code that interacts with Firebase Auth to sign in users, updates the UI if the user is signed in,
- * and sends the user's vote to the server.
- *
- * When running on localhost, you can disable authentication by passing `auth=false` as a query parameter.
- *
- * NOTE: YOU ONLY NEED TO MODIFY THE VOTE FUNCTION AT THE BOTTOM OF THIS FILE.
- */
 firebase.initializeApp(config);
 
 // Watch for state change from sign in
@@ -16,6 +8,7 @@ function initApp() {
       // User is signed in.
       signInButton.innerText = 'Sign Out';
       document.getElementById('form').style.display = '';
+
     } else {
       // No user is signed in.
       signInButton.innerText = 'Sign In with Google';
@@ -38,7 +31,7 @@ async function createIdToken() {
   if (authDisabled()) {
     console.warn('Auth is disabled. Returning dummy ID token.');
     return new Promise((resolve) => {
-        resolve('dummyToken');  // return a dummy ID token
+      resolve('dummyToken');  // return a dummy ID token
     })
   } else {
     return await firebase.auth().currentUser.getIdToken();
@@ -59,25 +52,38 @@ window.onload = function () {
 function signIn() {
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+
+  var name = "a";
+  var email = "b";
   firebase
     .auth()
     .signInWithPopup(provider)
     .then(result => {
+
+      // ======== NEW ============================
+      name = result.user.displayName;
+      email = result.user.email;
+
+      addStudent(result.user.displayName, result.user.email);
+      //=========================================================
+
+
       // Returns the signed in user along with the provider's credential
       console.log(`${result.user.displayName} logged in.`);
-      window.alert(`Welcome ${result.user.displayName}!`);
+      window.alert(`Hey, ${result.user.displayName}. You're Signed In!`);
     })
     .catch(err => {
       console.log(`Error during sign in: ${err.message}`);
       window.alert(`Sign in failed. Retry or check your browser logs.`);
     });
+
 }
 
 function signOut() {
   firebase
     .auth()
     .signOut()
-    .then(result => {})
+    .then(result => { })
     .catch(err => {
       console.log(`Error during sign out: ${err.message}`);
       window.alert(`Sign out failed. Retry or check your browser logs.`);
@@ -97,36 +103,75 @@ function toggle() {
   }
 }
 
-/**
- * DO NOT ALTER ANY CODE ABOVE THIS COMMENT
- * ++++ ADD YOUR CODE BELOW ++++
- * === VOTE FUNCTION ===
- */
+// ============= NEW ==================================
 
-/**
- * Sends the user's vote to the server.
- * @param team
- * @returns {Promise<void>}
- */
-async function vote(team) {
-  console.log(`Submitting vote for ${team}...`);
-  if (firebase.auth().currentUser || authDisabled()) {
-    // Retrieve JWT to identify the user to the Identity Platform service.
-    // Returns the current token if it has not expired. Otherwise, this will
-    // refresh the token and return a new one.
-    try {
-      const token = await createIdToken();
-
-      /*
-       * ++++ YOUR CODE HERE ++++
-       */
-      window.alert(`Not implemented yet!`);
-
-    } catch (err) {
-      console.log(`Error when submitting vote: ${err}`);
-      window.alert('Something went wrong... Please try again!');
-    }
-  } else {
-    window.alert('User not signed in.');
+async function addStudent(name, email) {
+  const formData = new URLSearchParams(window.location.search);
+  if (formData.keys().length == 0) {
+    formData.append("key", "000111");
   }
+  formData.append("name", name);
+  formData.append("email", email);
+
+  fetch('/add_student', {
+    method: 'POST',
+    headers: {
+    },
+    body: formData
+  }).then(response => {
+    if (response.ok) {
+      console.log('student added to db!');
+    } else {
+      console.error('student failed to add to db :(');
+    }
+  });
+
+  // update HTML
+  updateAttendanceList();
+  
+}
+
+function updateAttendanceList(){
+  fetch('/update_html', {
+    method: 'GET',
+    headers: {
+    }
+  }).then(response => {
+    if (!response.ok) throw new Error("Failed to fetch :(");
+    return response.json();
+  }).then(data => {
+      console.log("Received from python:", data);
+      updateHTML(data);
+      console.log("Updated the HTML!");
+    })
+    .catch(error => {
+      console.error("failed to update HTML :(", error);
+    });
+}
+
+function updateHTML(data){
+  console.log("entered updateHTML()");
+  var section = document.getElementById('present_section');
+
+  var code = document.getElementById('daily_code').innerText;
+
+  //reset 
+  section.innerHTML = '';
+
+  data.forEach(entry => {
+    //only show if the entry has the correct code
+    if (entry[2]==code || entry[2]==999999){
+      const name = entry[0];
+    
+      const div = document.createElement('div');
+      div.textContent = name;
+      div.style.backgroundColor="lightblue";
+      div.style.padding = '4px';
+      div.style.marginBottom = '2px';
+      div.style.borderBottom = '1px solid #ccc';
+      section.appendChild(div);
+    }
+    
+
+  });
 }
