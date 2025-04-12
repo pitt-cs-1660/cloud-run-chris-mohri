@@ -70,8 +70,7 @@ function signIn() {
 
       // Returns the signed in user along with the provider's credential
       console.log(`${result.user.displayName} logged in.`);
-      window.alert(`Welcome ${result.user.displayName}!`);
-
+      window.alert(`Hey, ${result.user.displayName}. You're Signed In!`);
     })
     .catch(err => {
       console.log(`Error during sign in: ${err.message}`);
