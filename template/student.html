@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang=en xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Student Sign In</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!--  -->
+  <!-- NEW -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/static/html2canvas.min.js"></script>
+  <!-- uncomment the below line for local development -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!--  -->
+  <!--  -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first-->
+  <script src="https://www.gstatic.com/firebasejs/7.18/firebase-app.js"></script>
+  <!-- Add Firebase Auth service-->
+  <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
+  <script src="/static/config.js"></script>
+  <script src="/static/firebase_student.js"></script>
+  <link rel="stylesheet" href="/static/styles.css">
+  
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>(•‿•)</text></svg>">
+
+
+
+</head>
+
+<body>
+  <nav class="teal darken-3">
+    <div class="nav-wrapper container"><a class="brand-logo center" href="#!">Sign In</a>
+      <ul class="left" id="nav-mobile">
+        <button class="waves-effect waves-light btn" id="signInButton">Sign In with Google</button>
+      </ul>
+    </div>
+  </nav>
+
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("signInButton").addEventListener("click", function () {
+        toggle();
+      });
+
+      // =====================================================================
+
+    })
+  </script>
+</body>
+
+</html>
