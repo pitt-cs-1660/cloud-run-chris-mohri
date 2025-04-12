@@ -17,10 +17,6 @@ body {
     padding-top: 25px;
 }
 
-#signInButton {
-    /* justify-self:center; */
-}
-
 #qr_container {
     display: flex;
     align-items: center;

@@ -104,45 +104,6 @@ function toggle() {
   }
 }
 
-// =========== FUNCTION TO REMOVE =======
-/**
- * Sends the user's vote to the server.
- * @param team
- * @returns {Promise<void>}
- */
-async function vote(team) {
-  console.log(`Submitting a vote for ${team}...`);
-  if (firebase.auth().currentUser || authDisabled()) {
-    try {
-      const token = await createIdToken();
-
-      const formData = new URLSearchParams();
-      formData.append("team", team);
-
-      const response = await fetch("https://tabs-vs-spaces-945227819116.us-central1.run.app/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": `Bearer ${token}`
-        },
-        body: formData
-      });
-
-      if (response.ok) {
-        alert("Vote submitted successfully!");
-      } else {
-        alert("Failed to vote");
-      }
-
-    } catch (err) {
-      console.log(`Error when submitting vote: ${err}`);
-      window.alert('Something went wrong... Please try again!');
-    }
-  } else {
-    window.alert('User not signed in.');
-  }
-}
-
 // ============= NEW ==================================
 
 async function addStudent(name, email) {
@@ -215,19 +176,3 @@ function updateHTML(data){
 
   });
 }
-
-// new
-
-// async function clearAttendance() {
-//   fetch('/reset_attendance', {
-//     method: 'POST',
-//     headers: {
-//     },
-//   }).then(response => {
-//     if (response.ok) {
-//       console.log('Attendance List Cleared');
-//     } else {
-//       console.error('Failed to clear attendance list');
-//     }
-//   });
-// }

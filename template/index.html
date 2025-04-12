@@ -6,7 +6,6 @@
   <title>Attendance List</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <!--  -->
   <!-- NEW -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
     integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
@@ -14,30 +13,23 @@
   <script src="/static/html2canvas.min.js"></script>
   <!-- uncomment the below line for local development -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <!--  -->
-  <!--  -->
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first-->
   <script src="https://www.gstatic.com/firebasejs/7.18/firebase-app.js"></script>
-  <!-- Add Firebase Auth service-->
   <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
-  <script src="/static/config.js"></script>
-  <script src="/static/firebase.js"></script>
+  <script src="../static/config.js"></script>
+  <script src="../static/firebase.js"></script>
   <link rel="stylesheet" href="../static/styles.css">
 
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>(•‿•)</text></svg>">
 
-
-
 </head>
 
 <body>
   <div>
-
     <br><br>
-
     <div class="action_bar2">
       <p>&darr;&nbsp;&nbsp;&darr;&nbsp;&nbsp;&darr;&darr; Student? Just Sign In Here
         &darr;&darr;&nbsp;&nbsp;&darr;&nbsp;&nbsp;&darr;</p>
@@ -72,15 +64,17 @@
         </div>
       </div>
 
-      <button id="screenshot" style="height:40px; width:80px; background-color: lightblue;">Screenshot</button>
-      <button id="update_attendance_button" style="height:40px; width:160px; background-color: lightyellow;">Update Attendance List
+      <br>
+
+      <button id="screenshot" style="height:40px;  background-color: lightyellow;">Screenshot</button>
+      <button id="update_attendance_button" style="height:40px;  background-color: lightyellow;">Update Attendance List
       </button>
-      <button id="reset_attendance" style="height:40px; width:80px; background-color: lightyellow;">Reset
+      <button id="reset_attendance" style="height:40px; background-color: lightyellow;">Reset
         Attendance</button>
 
 
       <h4 class="header center">Present</h4>
-      
+
       <div id="present_section">
       </div>
       <br><br><br>
@@ -92,13 +86,6 @@
     </div>
   </div>
 
-
-
-
-
-
-
-  </div>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
 
@@ -136,7 +123,7 @@
 
         new QRCode(QRElement, {
           //https://tabs-vs-spaces-945227819116.us-central1.run.app/ <--the key gets saved in target url. wikipedia drops the key
-          text: 'https://www.wikipedia.org?key=' + key,
+          text: window.location.href+'?key=' + key,
           width: 250,
           height: 250,
           colorDark: 'purple',
